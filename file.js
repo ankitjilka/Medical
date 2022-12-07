@@ -21,7 +21,7 @@ function goToTop(){
 let lgSg = document.getElementById("lgnSgn");
 //console.log(lgSg);
 lgSg.addEventListener('click',() => {
-    window.location.href="https://ankit-jilka.github.io/signin.html";
+    window.location.href="/signin.html";
 })
 
 
