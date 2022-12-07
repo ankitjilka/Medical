@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="signincss.css">
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js";
+         import { getDatabase , set , ref } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+        const firebaseConfig = {
+          apiKey: "AIzaSyCnHcOFFYYfkjQYzkqQTu8LtF5xZxVQBMk",
+          authDomain: "medical-5ccba.firebaseapp.com",
+          projectId: "medical-5ccba",
+          storageBucket: "medical-5ccba.appspot.com",
+          messagingSenderId: "108011023856",
+          appId: "1:108011023856:web:a2d855e60b73e230fd8135"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+
+        submitData.addEventListener('click', (e) => {
+            
+            var fName = document.getElementById("fName").value;
+            var lName = document.getElementById("lName").value;
+            var email = document.getElementById("email").value;
+            var phNo = document.getElementById("phNo").value;
+            var password = document.getElementById("pwd").value;
+            var cpwd = document.getElementById("cpwd").value;
+
+            if(!password.localeCompare(cpwd)){    
+            createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        
+                        set(ref(database,'users/' + user.uid),{
+                            firstName: fName,
+                            lastName: lName,
+                            email: email,
+                            phno: phNo
+                        })
+                        alert("Registration Successfull..");
+                        document.getElementById("fName").value = "";
+                        document.getElementById("lName").value = "";
+                        document.getElementById("email").value = "";
+                        document.getElementById("phNo").value = "";
+                        document.getElementById("pwd").value = "";
+                        document.getElementById("cpwd").value = "";
+                    })
+            .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+    
+            });
+            }
+            else{
+                alert("password and confirm password must be match.");
+            }
+        })
+      </script>
+</head>
+<body>
+    <div class="Nevigationbar">
+        
+        <h3>About</h3>
+        <h3>Cart</h3>
+        <h3 id="signin">Login</h3>
+        <h3 id="home">Home</h3>
+        
+        <div class="searchbar">
+            <button id="searchbutton">Search</button>
+            <input class='searchtext'type="text" placeholder="search.." >
+        </div>
+        <h1>Amrut Medical Store</h1>
+    </div>
+    <p>Create  New  Account</p>
+    <div class="signin">
+        
+        <div class="fom">
+        <form action="" method="POST">
+            <table>
+                <tr class='logintext'>
+                    <td><label for='firstname'>First Name</label></td>
+                    <td><input type="text"  name='firstname' id="fName"></td>
+                </tr>
+                <tr class='logintext'>
+                    <td><label for='lastname'>Last Name</label></td>
+                    <td><input type="text"  name='lastname' id="lName"/></td>
+                </tr>
+                <tr class='logintext'>
+                    <td><label for='emailid'>Email Id</label></td>
+                    <td><input type="email"  name='emailid' id="email"/></td>
+                </tr>
+                <tr class='logintext'>
+                    <td><label for='mobileno'>Mobile No.</label></td>
+                    <td><input type="text"  name='mobileno' id="phNo"/></td>
+                </tr>
+                <tr class='logintext'>
+                    <td><label for='pwd'>Password</label></td>
+                    <td><input type="password"  name='pwd' id="pwd"/></td>
+                </tr>
+                <tr class='logintext'>
+                    <td><label for='cpwd'>Confirm Password</label></td>
+                    <td><input type="password"  name='cpwd' id="cpwd"/></td>
+                </tr>
+            </table>
+            
+        </form>
+        <button type="submit" value='submit' id="submitData">Register</button>
+            
+            <br/>
+            <br/>
+            <br/>
+    </div>
+    </div>
+</body>
+<script src="./creteAct.js"></script>
+</html>

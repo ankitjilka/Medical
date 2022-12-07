@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="signincss.css">
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js"; 
+        import { getDatabase , set , ref , update} from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+        const firebaseConfig = {
+          apiKey: "AIzaSyCnHcOFFYYfkjQYzkqQTu8LtF5xZxVQBMk",
+          authDomain: "medical-5ccba.firebaseapp.com",
+          projectId: "medical-5ccba",
+          storageBucket: "medical-5ccba.appspot.com",
+          messagingSenderId: "108011023856",
+          appId: "1:108011023856:web:a2d855e60b73e230fd8135"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+
+        submitData.addEventListener('click', (e) => {
+            
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                const user = userCredential.user;
+
+                alert("login..");
+                document.getElementById("email").value = "";
+                document.getElementById("password").value = "";        
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
+            
+        
+        })
+      </script>
+</head>
+<body>
+    <div class="Nevigationbar">        
+        <h3>About</h3>
+        <h3>Cart</h3>
+        <h3 id="home">Home</h3>
+        
+        <div class="searchbar">
+            <button id="searchbutton">Search</button>
+            <input class='searchtext'type="text" placeholder="search.." >
+        </div>
+        <h1>Amrut Medical Store</h1>
+    </div>
+    <p>Customer Login</p>
+    <div class="signin">
+        
+        <div class="fom">
+        <form action="" method="POST">
+            <table>
+                <tr class='logintext'>
+                    <td><label for='uname'>User mail</label></td>
+                    <td><input type="text"  name='uname'  placeholder="Email id" id="email"/></td>
+                </tr>
+                <tr class='logintext'>
+                    <td><label for='password'>Password</label></td>
+                    <td><input type="password"  name='password' id="password"/></td>
+                </tr>
+
+            </table>
+            
+            
+        </form>
+        <button type="submit" value='submit' id="submitData">LogIn</button>
+            <h3>OR</h3>
+        <button id="crtAcc">Create an Account</button>
+        <br/>
+        <br/>
+    </div>
+    </div>
+    
+</body>
+<script src="./signin.js"></script>
+</html>
