@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: medicalapp
+    labels:
+      app: medical
+spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: medical
+    template:
+      metadata:
+        labels:
+          app: medical
+      spec:
+        containers:
+         - name: medical-container
+           image: ankitjilka31/medical
+           ports:
+           - containerPort: 80
+          #  env:
+          #  - name: MONGO_INITDB_ROOT_USERNAME
+          #    valueFrom:
+          #       secretKeyRef:
+          #          name: mongodb-secret
+          #          key: mongo-root-username
+          #  - name : MONGO_INITDB_ROOT_PASSWORD
+          #    valueFrom:
+          #       secretKeyRef:
+          #           name: mongodb-secret
+          #           key: mongo-root-password
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: medical-service
+
+spec:
+  type: NodePort
+  selector:
+    app: medical
+  ports:
+    - protocol: TCP
+      port: 81
+      targetPort: 80
+      nodePort: 32001
