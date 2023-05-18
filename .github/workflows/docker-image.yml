@@ -1,27 +1,20 @@
-name: Docker Image CI
+name: Python application
 
 on:
   push:
-    branches: [ master ]
+   branches: [ master ]
   pull_request:
     branches: [ master ]
-
+      
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: docker login
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ankitjilka31/medical:$(date +%s)
-      
-    - name: Docker Push
-      run: docker push ankitjilka31/medical
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "ankitjilka31" --password-stdin
+        docker image build -t ankitjilka31/medical:latest .
+        docker push ankitjilka31/medical:latest
